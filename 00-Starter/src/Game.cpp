@@ -1,6 +1,5 @@
 ﻿#include "Game.h"
 
-#include <fstream>
 
 Game::Game():world_(b2Vec2(0,0))
 {
@@ -17,9 +16,7 @@ void Game::Init()
 	gravity_.Set(0.0f, -9.81f);
     world_.SetGravity(gravity_);
 
-    texture_box_.loadFromFile("./data/box.png");
-
-    box2_.setTexture(texture_box_);
+    box2_.setTexture(*texture_manager_.GetNewTexture("./data/box.png"));
     box2_.setColor(sf::Color(255, 100, 100, 100));
     box2_.setOrigin(35.f, 35.f);
     box2_.setPosition(600, 400);
@@ -74,7 +71,6 @@ void Game::Game_Loader()
 
 void Game::Generate_Ground()
 {
-    int tile;
    
     auto it = first_map_.begin();
     
@@ -84,7 +80,7 @@ void Game::Generate_Ground()
 		 {
              if (it != first_map_.end())
              {
-                 tile = *it;
+                 int tile = *it;
                  if (tile != 0)
                  {
                      auto newGround = std::make_unique<Ground>(world_, axeX, axeY, tile);
@@ -114,7 +110,12 @@ void Game::Player_Box_Create()
         {
             if (level_authorized_box_ > number_box_) 
             {
-                player_box_mobile_vector.push_back(std::make_unique<Box>(world_, box2_.getPosition()));
+                b2Vec2 vertices[4];
+                vertices[0].Set(0.5, 0.5);
+                vertices[1].Set(0.5, -0.5);
+                vertices[2].Set(-0.5, -0.5);
+                vertices[3].Set(-0.5, 0.5);
+                player_box_mobile_vector.push_back(std::make_unique<PhysicalObject>(world_,texture_manager_.GetNewTexture("./data/box.png"), box2_.getPosition(),vertices,4,b2_dynamicBody));
                 number_box_++;
             }
             left_mouse_pressed_ = true;
@@ -136,10 +137,6 @@ void Game::Draw_Player_Box()
 
 void Game::Reset_Player_Box()
 {
-    for (const auto& i : player_box_mobile_vector)
-    {
-        world_.DestroyBody(i->get_body_());
-    }
         player_box_mobile_vector.clear();
         number_box_ = 0;
 }

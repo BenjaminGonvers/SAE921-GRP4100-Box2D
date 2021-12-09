@@ -1,8 +1,9 @@
 ﻿#pragma once
 #include <SFML/Graphics.hpp>
 #include <Box2D/Box2D.h>
-#include <Box.h>
 #include <Ground.h>
+#include <PhysicalObject.h>
+#include <TextureManager.h>
 #include <vector>
 #include <fstream>
 class Game
@@ -11,8 +12,7 @@ private:
     
     sf::RenderWindow window_;
 
-    sf::Texture texture_box_;
-    sf::Texture ground_texture_;
+  
 
     sf::Sprite box2_;
 
@@ -31,12 +31,14 @@ private:
     int number_box_ = 0;
 
     std::vector<std::unique_ptr<Ground>> ground_imobile_vector;
-    std::vector<std::unique_ptr<Box>> player_box_mobile_vector;
+    std::vector<std::unique_ptr<PhysicalObject>> player_box_mobile_vector;
 
     sf::Vector2i mouse_pos_;
     bool left_mouse_pressed_ = false;
 
     std::vector<int> first_map_;
+
+    TextureManager texture_manager_;
 
 public:
 
