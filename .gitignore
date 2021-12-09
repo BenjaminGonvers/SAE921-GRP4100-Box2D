@@ -1,3 +1,8 @@
+# Build folder
+/[bB]uild/
+/out/
+/.vs/
+
 # Prerequisites
 *.d
 
