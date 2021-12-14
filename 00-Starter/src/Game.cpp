@@ -59,9 +59,10 @@ void Game::Game_Loader()
 
     while (std::getline(in, origine_tile))
     {
-        if (origine_tile.size() > 0)
+        if (!origine_tile.empty())
         {
             int tile = std::stoi(origine_tile);
+            
             first_map_.push_back(tile);
         }
 
