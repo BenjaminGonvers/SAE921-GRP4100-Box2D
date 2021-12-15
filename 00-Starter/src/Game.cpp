@@ -3,7 +3,6 @@
 
 Game::Game():world_(b2Vec2(0,0))
 {
-  
     
 
 }
@@ -16,15 +15,13 @@ void Game::Init()
 	gravity_.Set(0.0f, -9.81f);
     world_.SetGravity(gravity_);
 
-    box2_.setTexture(*texture_manager_.GetNewTexture("./data/box.png"));
-    box2_.setColor(sf::Color(255, 100, 100, 100));
-    box2_.setOrigin(35.f, 35.f);
-    box2_.setPosition(600, 400);
-
     Game_Loader();
     Generate_Ground();
+    Create_Player();
 
-    window_.setMouseCursorVisible(false);
+    
+
+    window_.setMouseCursorVisible(true);
     
 }
 
@@ -35,8 +32,9 @@ void Game::Game_Loop()
     {
         world_.Step(timeStep_, velocityIterations_, positionIterations_);
         
-        mouse_pos_ = sf::Mouse::getPosition(window_);
-        box2_.setPosition(mouse_pos_.x,mouse_pos_.y);
+        mouse_pos_SFML_ = sf::Mouse::getPosition(window_);
+        mouse_pos_B2D_.x = mouse_pos_SFML_.x;
+        mouse_pos_B2D_.y = mouse_pos_SFML_.y;
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
         {
@@ -44,11 +42,14 @@ void Game::Game_Loop()
         }
 
         window_.clear();
-        window_.draw(box2_);
+        Check_Player_Action();
         Draw_Plateform();
         Player_Box_Create();
         Draw_Player_Box();
+        Draw_Player_Character();
     	window_.display();
+
+
     }
 }
 
@@ -107,7 +108,7 @@ void Game::Player_Box_Create()
 {
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
-        if (left_mouse_pressed_ == false)
+        if (!left_mouse_pressed_)
         {
             if (level_authorized_box_ > number_box_) 
             {
@@ -116,7 +117,7 @@ void Game::Player_Box_Create()
                 vertices[1].Set(0.5, -0.5);
                 vertices[2].Set(-0.5, -0.5);
                 vertices[3].Set(-0.5, 0.5);
-                player_box_mobile_vector.push_back(std::make_unique<PhysicalObject>(world_,texture_manager_.GetNewTexture("./data/box.png"), box2_.getPosition(),vertices,4,b2_dynamicBody));
+                player_box_mobile_vector.push_back(std::make_unique<PhysicalObject>(world_,texture_manager_.GetNewTexture("./data/box.png"),mouse_pos_B2D_,vertices,4,b2_dynamicBody));
                 number_box_++;
             }
             left_mouse_pressed_ = true;
@@ -140,4 +141,41 @@ void Game::Reset_Player_Box()
 {
         player_box_mobile_vector.clear();
         number_box_ = 0;
+}
+
+void Game::Create_Player()
+{
+    sf::Vector2f pos(50,50);
+    sf::Vector2f temp_pos(35,35);
+
+    b2Vec2 vertices[4];
+    vertices[0] = PhysicalObject::pixel_to_meter(temp_pos);
+    temp_pos.x = -31;
+    vertices[1] = PhysicalObject::pixel_to_meter(temp_pos);
+    temp_pos.y = -57;
+    vertices[2] = PhysicalObject::pixel_to_meter(temp_pos);
+    temp_pos.x = 35;
+    vertices[3] = PhysicalObject::pixel_to_meter(temp_pos);
+    players_character_vector.push_back(std::make_unique<Player>(world_, texture_manager_.GetNewTexture("./data/alienGreen.png"),
+        pos, vertices, 4, b2_dynamicBody));
+   
+
+}
+
+void Game::Draw_Player_Character()
+{
+    for (const auto& i : players_character_vector)
+    {
+        i->pos_MAJ();
+        window_.draw(i->draw());
+    }
+}
+
+void Game::Check_Player_Action()
+{
+    for (const auto& i : players_character_vector)
+    {
+        i->Check_Player_Action();
+    }
+
 }

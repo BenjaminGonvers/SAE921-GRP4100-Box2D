@@ -10,7 +10,7 @@ PhysicalObject::PhysicalObject(b2World& world, const sf::Texture* texture, const
 	Sprite_.setTexture(*texture);
 	Sprite_.setOrigin(35.f, 35.f);
 
-	bodyDef_.position = pixel_to_meter(pos);
+	bodyDef_.position = Convert_origine_pixel_to_meter(pos);
 
 	dynamicBox_.Set(vertices, vertices_count);
 	fixtureDef_.shape = &dynamicBox_;
@@ -33,7 +33,7 @@ PhysicalObject::PhysicalObject(b2World& world,const sf::Texture* texture,const s
 	Sprite_.setOrigin(35.f, 35.f);
 
 	bodyDef_.type = bodytype;
-	bodyDef_.position = pixel_to_meter(pos);
+	bodyDef_.position = Convert_origine_pixel_to_meter(pos);
 
 	dynamicBox_.Set(vertices,vertices_count);
 	fixtureDef_.shape = &dynamicBox_;
@@ -53,12 +53,12 @@ PhysicalObject::~PhysicalObject()
 
 void PhysicalObject::pos_MAJ()
 {
-	Sprite_.setPosition(meter_to_pixel(body_->GetPosition()));
+	Sprite_.setPosition(Convert_origine_meter_to_pixel(body_->GetPosition()));
 	Sprite_.setRotation(radians_to_degrees(body_->GetAngle()));
 }
 
 
-b2Vec2 PhysicalObject::pixel_to_meter(sf::Vector2f position)
+b2Vec2 PhysicalObject::Convert_origine_pixel_to_meter(sf::Vector2f position)
 {
 	b2Vec2 new_position;
 	new_position.x = position.x / 70.f;
@@ -66,7 +66,7 @@ b2Vec2 PhysicalObject::pixel_to_meter(sf::Vector2f position)
 	return  new_position;
 }
 
-sf::Vector2f PhysicalObject::meter_to_pixel(b2Vec2 position)
+sf::Vector2f PhysicalObject::Convert_origine_meter_to_pixel(b2Vec2 position)
 {
 	sf::Vector2f new_position;
 	new_position.x = position.x * 70.f;
@@ -99,4 +99,20 @@ sf::Vector2f PhysicalObject::get_pos()
 b2Body* PhysicalObject::get_body_()
 {
 	return body_;
+}
+
+b2Vec2 PhysicalObject::pixel_to_meter(sf::Vector2f position)
+{
+	b2Vec2 new_position;
+	new_position.x = position.x / 70.f;
+	new_position.y = position.y / 70.f;
+	return  new_position;
+}
+
+sf::Vector2f PhysicalObject::meter_to_pixel(b2Vec2 position)
+{
+	sf::Vector2f new_position;
+	new_position.x = position.x * 70.f;
+	new_position.y = position.y * 70.f;
+	return new_position;
 }

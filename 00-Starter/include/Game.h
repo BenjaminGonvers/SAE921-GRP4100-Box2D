@@ -5,6 +5,7 @@
 #include <PhysicalObject.h>
 #include <TextureManager.h>
 #include <vector>
+#include <Player.h>
 #include <fstream>
 class Game
 {
@@ -14,7 +15,7 @@ private:
 
   
 
-    sf::Sprite box2_;
+	
 
     b2Vec2 gravity_;
     b2World world_;
@@ -32,13 +33,20 @@ private:
 
     std::vector<std::unique_ptr<Ground>> ground_imobile_vector;
     std::vector<std::unique_ptr<PhysicalObject>> player_box_mobile_vector;
+    std::vector<std::unique_ptr<Player>> players_character_vector;
 
-    sf::Vector2i mouse_pos_;
+    
+
+    sf::Vector2i mouse_pos_SFML_;
+    sf::Vector2f mouse_pos_B2D_;
+
     bool left_mouse_pressed_ = false;
+    
 
     std::vector<int> first_map_;
 
     TextureManager texture_manager_;
+
 
 public:
 
@@ -56,5 +64,10 @@ public:
     void Draw_Player_Box();
 
     void Reset_Player_Box();
+
+    void Create_Player();
+    void Draw_Player_Character();
+    void Check_Player_Action();
+
 };
 
