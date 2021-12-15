@@ -33,6 +33,7 @@ private:
 
     std::vector<std::unique_ptr<Ground>> ground_imobile_vector;
     std::vector<std::unique_ptr<PhysicalObject>> player_box_mobile_vector;
+    std::vector<std::unique_ptr<PhysicalObject>> objects_vector_;
     std::vector<std::unique_ptr<Player>> players_character_vector;
 
     
@@ -68,6 +69,6 @@ public:
     void Create_Player();
     void Draw_Player_Character();
     void Check_Player_Action();
-
+    void Create_Finish();
 };
 

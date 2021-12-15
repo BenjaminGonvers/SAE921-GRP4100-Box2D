@@ -12,12 +12,13 @@ void Game::Init()
 	window_.create(sf::VideoMode(1200, 800), "WorldCube!");
 	window_.setFramerateLimit(60.0f);
 
-	gravity_.Set(0.0f, -9.81f);
+	gravity_.Set(0.0f, -50);
     world_.SetGravity(gravity_);
 
     Game_Loader();
     Generate_Ground();
     Create_Player();
+    Create_Finish();
 
     
 
@@ -76,6 +77,7 @@ void Game::Generate_Ground()
    
     auto it = first_map_.begin();
     
+    
 		for (float axeY = 35; axeY <= 835; axeY += 70.f) 
         {
 		 for (float axeX = 35; axeX <= 1235.f; axeX += 70.f)
@@ -101,6 +103,11 @@ void Game::Draw_Plateform()
     for (const auto& i : ground_imobile_vector)
     {
        window_.draw( i->draw());
+    }
+    for (const auto& i : objects_vector_)
+    {
+        i->pos_MAJ();
+        window_.draw(i->draw());
     }
 }
 
@@ -178,4 +185,25 @@ void Game::Check_Player_Action()
         i->Check_Player_Action();
     }
 
+}
+
+void Game::Create_Finish()
+{
+    
+        sf::Vector2f pos(1155, 525);
+        sf::Vector2f temp_pos(35, 35);
+
+        b2Vec2 vertices[4];
+        vertices[0] = PhysicalObject::pixel_to_meter(temp_pos);
+        temp_pos.x = -35;
+        vertices[1] = PhysicalObject::pixel_to_meter(temp_pos);
+        temp_pos.y = -35;
+        vertices[2] = PhysicalObject::pixel_to_meter(temp_pos);
+        temp_pos.x = 35;
+        vertices[3] = PhysicalObject::pixel_to_meter(temp_pos);
+        objects_vector_.push_back(std::make_unique<PhysicalObject>(world_, texture_manager_.GetNewTexture("./data/flagRed.png"),
+            pos, vertices, 4));
+        
+
+    
 }

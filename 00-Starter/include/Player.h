@@ -6,12 +6,9 @@ class Player : public PhysicalObject
 {
 private:
 
-    bool left_mouse_pressed_ = false;
     bool w_keyboard_pressed_ = false;
-    bool d_keyboard_pressed_ = false;
-    bool s_keyboard_pressed_ = false;
-    bool a_keyboard_pressed_ = false;
 
+	b2Fixture* footSensorFixture_;
 
 
 public:
