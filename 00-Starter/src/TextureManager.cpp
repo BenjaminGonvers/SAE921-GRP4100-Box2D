@@ -6,7 +6,7 @@
 
 sf::Texture* TextureManager::GetNewTexture(const std::string & path)
 	{
-		// ReSharper disable once CppTooWideScopeInitStatement
+		
 		const auto texture = texture_map_.find(path);
 
 		if (texture != texture_map_.end())
@@ -37,3 +37,4 @@ sf::Texture* TextureManager::GetNewTexture(const std::string & path)
 		return copy;
 
 	}
+

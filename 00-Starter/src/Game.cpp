@@ -1,5 +1,7 @@
 ﻿#include "Game.h"
 
+#include <iostream>
+
 
 Game::Game():world_(b2Vec2(0,0))
 {
@@ -31,25 +33,27 @@ void Game::Game_Loop()
 
     while (window_.isOpen())
     {
+    	window_.clear();
         world_.Step(timeStep_, velocityIterations_, positionIterations_);
-        
+        window_.pollEvent(event);
+
         mouse_pos_SFML_ = sf::Mouse::getPosition(window_);
         mouse_pos_B2D_.x = mouse_pos_SFML_.x;
         mouse_pos_B2D_.y = mouse_pos_SFML_.y;
+
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
         {
             Reset_Player_Box();
         }
-
-        window_.clear();
+        
+        
         Check_Player_Action();
-        Draw_Plateform();
-        Player_Box_Create();
+    	Draw_Plateform();
         Draw_Player_Box();
         Draw_Player_Character();
+    	Player_Box_Create();
     	window_.display();
-
 
     }
 }
@@ -70,6 +74,7 @@ void Game::Game_Loader()
 
     }
 }
+
 
 
 void Game::Generate_Ground()
@@ -97,6 +102,8 @@ void Game::Generate_Ground()
 		}
 	
 }
+
+
 
 void Game::Draw_Plateform()
 {
@@ -146,8 +153,9 @@ void Game::Draw_Player_Box()
 
 void Game::Reset_Player_Box()
 {
-        player_box_mobile_vector.clear();
-        number_box_ = 0;
+    player_box_mobile_vector.clear();
+    number_box_ = 0;
+
 }
 
 void Game::Create_Player()
@@ -201,9 +209,8 @@ void Game::Create_Finish()
         vertices[2] = PhysicalObject::pixel_to_meter(temp_pos);
         temp_pos.x = 35;
         vertices[3] = PhysicalObject::pixel_to_meter(temp_pos);
-        objects_vector_.push_back(std::make_unique<PhysicalObject>(world_, texture_manager_.GetNewTexture("./data/flagRed.png"),
+        objects_vector_.push_back(std::make_unique<NonPhysicalObject>(world_, texture_manager_.GetNewTexture("./data/flagRed.png"),
             pos, vertices, 4));
         
 
-    
 }

@@ -38,12 +38,8 @@ void Player::Check_Player_Action()
 	{
 		if (!w_keyboard_pressed_)
 		{
-			if()
-			{
 				body_->ApplyLinearImpulse(b2Vec2(0, 15), body_->GetWorldCenter(), true);
 			w_keyboard_pressed_ = true;
-			}
-			
 		}
 	}else
 	{
@@ -59,3 +55,4 @@ void Player::Check_Player_Action()
 	}
 	
 }
+

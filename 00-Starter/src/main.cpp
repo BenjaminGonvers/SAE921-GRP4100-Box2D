@@ -3,11 +3,11 @@
 int main()
 {
   
-    Game my_game_{};
+    Game Box_Game{};
 
-    my_game_.Init();
+    Box_Game.Init();
 
-    my_game_.Game_Loop();
+    Box_Game.Game_Loop();
 
     return 0;
 }

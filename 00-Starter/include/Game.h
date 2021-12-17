@@ -3,6 +3,7 @@
 #include <Box2D/Box2D.h>
 #include <Ground.h>
 #include <PhysicalObject.h>
+#include <NonPhysicalObject.h>
 #include <TextureManager.h>
 #include <vector>
 #include <Player.h>
@@ -24,16 +25,19 @@ private:
     b2Body* ground_body_;
     b2PolygonShape ground_box_;
 
-    float timeStep_ = 1.0f / 60.0f;
+
+    
+    float timeStep_ = 1.0f / 60.0f ;
     int32 velocityIterations_ = 6;
     int32 positionIterations_ = 2;
+    sf::Event event;
 
     int level_authorized_box_ = 1000;
     int number_box_ = 0;
 
     std::vector<std::unique_ptr<Ground>> ground_imobile_vector;
     std::vector<std::unique_ptr<PhysicalObject>> player_box_mobile_vector;
-    std::vector<std::unique_ptr<PhysicalObject>> objects_vector_;
+    std::vector<std::unique_ptr<NonPhysicalObject>> objects_vector_;
     std::vector<std::unique_ptr<Player>> players_character_vector;
 
     
