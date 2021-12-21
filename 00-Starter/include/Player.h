@@ -2,11 +2,13 @@
 #include "PhysicalObject.h"
 
 
-class Player : public PhysicalObject
+class Player : public PhysicalObject 
 {
 private:
 
     bool w_keyboard_pressed_ = false;
+	int footContactsCounter_ = false;
+	
 
 	b2Fixture* footSensorFixture_;
 
@@ -17,7 +19,11 @@ public:
 
 	void Check_Player_Action();
 
+	bool isGrounded() const;
 
+    void startFootContact();
+    void endFootContact();
 
-
+    void StartContact();
+    void EndContact();
 };

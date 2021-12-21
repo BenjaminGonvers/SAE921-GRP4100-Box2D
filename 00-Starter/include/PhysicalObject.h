@@ -17,7 +17,7 @@ public:
 
 	PhysicalObject(b2World& , const sf::Texture* , const sf::Vector2f& ,const b2Vec2 [], const int&);
 	PhysicalObject(b2World& , const sf::Texture* , const sf::Vector2f& , const b2Vec2 [], const int& , b2BodyType );
-	~PhysicalObject();
+	virtual  ~PhysicalObject();
 
 	sf::Sprite& draw();
 	void pos_MAJ();

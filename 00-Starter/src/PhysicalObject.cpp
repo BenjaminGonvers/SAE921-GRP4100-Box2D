@@ -11,6 +11,7 @@ PhysicalObject::PhysicalObject(b2World& world, const sf::Texture* texture, const
 	Sprite_.setOrigin(35.f, 35.f);
 
 	bodyDef_.position = Convert_origine_pixel_to_meter(pos);
+	bodyDef_.userData.pointer = reinterpret_cast<uintptr_t>(this);
 
 	dynamicBox_.Set(vertices, vertices_count);
 	fixtureDef_.shape = &dynamicBox_;
@@ -35,6 +36,7 @@ PhysicalObject::PhysicalObject(b2World& world,const sf::Texture* texture,const s
 
 	bodyDef_.type = bodytype;
 	bodyDef_.position = Convert_origine_pixel_to_meter(pos);
+	bodyDef_.userData.pointer = reinterpret_cast<uintptr_t>(this);
 
 	dynamicBox_.Set(vertices,vertices_count);
 	fixtureDef_.shape = &dynamicBox_;

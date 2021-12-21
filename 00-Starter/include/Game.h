@@ -7,6 +7,7 @@
 #include <TextureManager.h>
 #include <vector>
 #include <Player.h>
+#include <PlayerContactListener.h>
 #include <fstream>
 class Game
 {
@@ -52,6 +53,8 @@ private:
 
     TextureManager texture_manager_;
 
+    PlayerContactListener player_contact_listener_;
+
 
 public:
 
@@ -68,7 +71,7 @@ public:
     void Player_Box_Create();
     void Draw_Player_Box();
 
-    void Reset_Player_Box();
+    void Reset_Game();
 
     void Create_Player();
     void Draw_Player_Character();

@@ -22,7 +22,7 @@ void Game::Init()
     Create_Player();
     Create_Finish();
 
-    
+    world_.SetContactListener(&player_contact_listener_);
 
     window_.setMouseCursorVisible(true);
     
@@ -41,11 +41,17 @@ void Game::Game_Loop()
         mouse_pos_B2D_.x = mouse_pos_SFML_.x;
         mouse_pos_B2D_.y = mouse_pos_SFML_.y;
 
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+        if (event.type == sf::Event::KeyPressed)
         {
-            Reset_Player_Box();
+            if (event.key.code == sf::Keyboard::R)
+            {
+                Reset_Game();
+            }
         }
+        /*if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+        {
+            Reset_Game();
+        }*/
         
         
         Check_Player_Action();
@@ -151,16 +157,18 @@ void Game::Draw_Player_Box()
     }
 }
 
-void Game::Reset_Player_Box()
+void Game::Reset_Game()
 {
     player_box_mobile_vector.clear();
+    players_character_vector.clear();
+    Create_Player();
     number_box_ = 0;
 
 }
 
 void Game::Create_Player()
 {
-    sf::Vector2f pos(50,50);
+    sf::Vector2f pos(100,650);
     sf::Vector2f temp_pos(35,35);
 
     b2Vec2 vertices[4];
