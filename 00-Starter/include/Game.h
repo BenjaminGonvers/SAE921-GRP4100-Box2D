@@ -12,28 +12,28 @@
 class Game
 {
 private:
-    
+
     sf::RenderWindow window_;
 
-  
 
-	
+
+
 
     b2Vec2 gravity_;
     b2World world_;
-    
-	b2BodyDef ground_body_def_;
+
+    b2BodyDef ground_body_def_;
     b2Body* ground_body_;
     b2PolygonShape ground_box_;
 
 
-    
-    float timeStep_ = 1.0f / 60.0f ;
+
+    float timeStep_ = 1.0f / 60.0f;
     int32 velocityIterations_ = 6;
     int32 positionIterations_ = 2;
     sf::Event event;
 
-    int level_authorized_box_ = 1000;
+    int level_authorized_box_ = 2;
     int number_box_ = 0;
 
     std::vector<std::unique_ptr<Ground>> ground_imobile_vector;
@@ -41,20 +41,21 @@ private:
     std::vector<std::unique_ptr<NonPhysicalObject>> objects_vector_;
     std::vector<std::unique_ptr<Player>> players_character_vector;
 
-    
+
 
     sf::Vector2i mouse_pos_SFML_;
     sf::Vector2f mouse_pos_B2D_;
 
     bool left_mouse_pressed_ = false;
-    
+    bool GameEnded = false;
 
     std::vector<int> first_map_;
 
     TextureManager texture_manager_;
 
     PlayerContactListener player_contact_listener_;
-
+    
+    
 
 public:
 
@@ -77,5 +78,7 @@ public:
     void Draw_Player_Character();
     void Check_Player_Action();
     void Create_Finish();
+    void GameIsFinish();
+    void CreateEndScren();
 };
 

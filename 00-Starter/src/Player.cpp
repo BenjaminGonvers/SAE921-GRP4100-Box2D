@@ -84,3 +84,5 @@ void Player::EndContact()
 {
 	footContactsCounter_ -= 1;
 }
+
+

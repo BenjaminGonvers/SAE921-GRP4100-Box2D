@@ -1,3 +1,4 @@
+#include "BodyFixtureType.h"
 #include "NonPhysicalObject.h"
 
 NonPhysicalObject::NonPhysicalObject(b2World& world, const sf::Texture* texture, const sf::Vector2f& pos, const b2Vec2 vertices[], const int& vertices_count)
@@ -11,11 +12,12 @@ NonPhysicalObject::NonPhysicalObject(b2World& world, const sf::Texture* texture,
 	Sprite_.setOrigin(35.f, 35.f);
 
 	bodyDef_.position = Convert_origine_pixel_to_meter(pos);
+	bodyDef_.userData.pointer = reinterpret_cast<uintptr_t>(this);
 
 	fixtureDef_.isSensor = true;
 	dynamicBox_.Set(vertices, vertices_count);
 	fixtureDef_.shape = &dynamicBox_;
-	
+	fixtureDef_.userData.pointer = static_cast<std::uintptr_t>(BodyFixtureType::FinishLine);
 
 	body_ = world_->CreateBody(&bodyDef_);
 	body_->CreateFixture(&fixtureDef_);
@@ -35,10 +37,12 @@ NonPhysicalObject::NonPhysicalObject(b2World& world,const sf::Texture* texture,c
 
 	bodyDef_.type = bodytype;
 	bodyDef_.position = Convert_origine_pixel_to_meter(pos);
+	bodyDef_.userData.pointer = reinterpret_cast<uintptr_t>(this);
 
 	dynamicBox_.Set(vertices,vertices_count);
 	fixtureDef_.shape = &dynamicBox_;
 	fixtureDef_.isSensor = true;
+	fixtureDef_.userData.pointer = static_cast<std::uintptr_t>(BodyFixtureType::FinishLine);
 
 	body_ = world_->CreateBody(&bodyDef_);
 	body_->CreateFixture(&fixtureDef_);
@@ -99,6 +103,21 @@ sf::Vector2f NonPhysicalObject::get_pos()
 b2Body* NonPhysicalObject::get_body_()
 {
 	return body_;
+}
+
+void NonPhysicalObject::StartContact()
+{
+	number_contact_ += 1;
+}
+
+void NonPhysicalObject::EndContact()
+{
+	number_contact_ -= 1;
+}
+
+int NonPhysicalObject::GetNumberContact()
+{
+	return number_contact_;
 }
 
 b2Vec2 NonPhysicalObject::pixel_to_meter(sf::Vector2f position)

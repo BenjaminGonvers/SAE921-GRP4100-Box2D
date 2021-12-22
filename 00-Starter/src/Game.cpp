@@ -23,6 +23,7 @@ void Game::Init()
     Create_Finish();
 
     world_.SetContactListener(&player_contact_listener_);
+   // world_.SetContactListener(&object_contact_listener_);
 
     window_.setMouseCursorVisible(true);
     
@@ -41,7 +42,7 @@ void Game::Game_Loop()
         mouse_pos_B2D_.x = mouse_pos_SFML_.x;
         mouse_pos_B2D_.y = mouse_pos_SFML_.y;
 
-        if (event.type == sf::Event::KeyPressed)
+        if (event.type == sf::Event::KeyPressed&&!GameEnded)
         {
             if (event.key.code == sf::Keyboard::R)
             {
@@ -53,12 +54,16 @@ void Game::Game_Loop()
             Reset_Game();
         }*/
         
-        
-        Check_Player_Action();
+        if (!GameEnded)
+        {
+            Check_Player_Action();
+            Player_Box_Create();
+            GameIsFinish();
+        }
     	Draw_Plateform();
         Draw_Player_Box();
         Draw_Player_Character();
-    	Player_Box_Create();
+    	
     	window_.display();
 
     }
@@ -221,4 +226,35 @@ void Game::Create_Finish()
             pos, vertices, 4));
         
 
+}
+
+void Game::GameIsFinish()
+{
+    for (const auto& i : objects_vector_)
+    {
+       if(i->GetNumberContact() > 0)
+       {
+           CreateEndScren();
+       }
+    }
+    
+}
+
+void Game::CreateEndScren()
+{
+    sf::Vector2f pos(400, 100);
+    sf::Vector2f temp_pos(35, 35);
+
+    b2Vec2 vertices[4];
+    vertices[0] = PhysicalObject::pixel_to_meter(temp_pos);
+    temp_pos.x = -35;
+    vertices[1] = PhysicalObject::pixel_to_meter(temp_pos);
+    temp_pos.y = -35;
+    vertices[2] = PhysicalObject::pixel_to_meter(temp_pos);
+    temp_pos.x = 35;
+    vertices[3] = PhysicalObject::pixel_to_meter(temp_pos);
+    objects_vector_.push_back(std::make_unique<NonPhysicalObject>(world_, texture_manager_.GetNewTexture("./data/gameOver.png"),
+        pos, vertices, 4));
+
+    GameEnded = true;
 }

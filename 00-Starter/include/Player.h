@@ -8,7 +8,7 @@ private:
 
     bool w_keyboard_pressed_ = false;
 	int footContactsCounter_ = false;
-	
+	bool LevelFinish_ = false;
 
 	b2Fixture* footSensorFixture_;
 

@@ -13,6 +13,7 @@ protected:
 	b2World* world_;
 	b2Body* body_;
 
+	int number_contact_ = 0;
 public:
 
 	NonPhysicalObject(b2World& , const sf::Texture* , const sf::Vector2f& ,const b2Vec2 [], const int&);
@@ -31,5 +32,9 @@ public:
 	static float radians_to_degrees(float);
 	sf::Vector2f get_pos();
 	b2Body* get_body_();
+
+	void StartContact();
+	void EndContact();
+	int GetNumberContact();
 
 };
