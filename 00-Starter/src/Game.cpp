@@ -11,7 +11,7 @@ Game::Game():world_(b2Vec2(0,0))
 
 void Game::Init()
 {
-	window_.create(sf::VideoMode(1200, 800), "WorldCube!");
+	window_.create(sf::VideoMode(1200, 800), "DemoWorldCube!");
 	window_.setFramerateLimit(60.0f);
 
 	gravity_.Set(0.0f, -50);
@@ -23,10 +23,13 @@ void Game::Init()
     Create_Finish();
 
     world_.SetContactListener(&player_contact_listener_);
-   // world_.SetContactListener(&object_contact_listener_);
 
     window_.setMouseCursorVisible(true);
-    
+
+    music_sound_.setBuffer(*sound_manager_.GetNewSound("./data/happy.wav"));
+    music_sound_.setLoop(true);
+    music_sound_.play();
+
 }
 
 void Game::Game_Loop()
@@ -65,7 +68,7 @@ void Game::Game_Loop()
         Draw_Player_Character();
     	
     	window_.display();
-
+        
     }
 }
 
@@ -184,7 +187,9 @@ void Game::Create_Player()
     vertices[2] = PhysicalObject::pixel_to_meter(temp_pos);
     temp_pos.x = 35;
     vertices[3] = PhysicalObject::pixel_to_meter(temp_pos);
-    players_character_vector.push_back(std::make_unique<Player>(world_, texture_manager_.GetNewTexture("./data/alienGreen.png"),
+    players_character_vector.push_back(std::make_unique<Player>(world_, 
+        texture_manager_.GetNewTexture("./data/alienGreen.png"),
+        sound_manager_.GetNewSound("./data/jump_07.wav"),
         pos, vertices, 4, b2_dynamicBody));
    
 

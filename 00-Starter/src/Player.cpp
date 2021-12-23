@@ -4,7 +4,7 @@
 #include <BodyFixtureType.h>
 
 
-Player::Player(b2World& world, sf::Texture* texture,sf::Vector2f& pos, b2Vec2 vertices[],const int& number_vertices, b2BodyType body_type):
+Player::Player(b2World& world, sf::Texture* texture, sf::SoundBuffer* sound_buffer, sf::Vector2f& pos, b2Vec2 vertices[], const int& number_vertices, b2BodyType body_type) :
 PhysicalObject(world, texture, pos,vertices,number_vertices,body_type )
 {
 	b2FixtureDef new_fixture_def;
@@ -30,6 +30,8 @@ PhysicalObject(world, texture, pos,vertices,number_vertices,body_type )
 
 	footSensorFixture_ = body_->CreateFixture(&new_fixture_def);
 	body_->SetFixedRotation(true);
+
+	jump_sound_.setBuffer(*sound_buffer);
 	
 }
 
@@ -40,7 +42,8 @@ void Player::Check_Player_Action()
 	{
 		if (!w_keyboard_pressed_&&isGrounded())
 		{
-				body_->ApplyLinearImpulse(b2Vec2(0, 15), body_->GetWorldCenter(), true);
+			body_->ApplyLinearImpulse(b2Vec2(0, 15), body_->GetWorldCenter(), true);
+			jump_sound_.play();
 			w_keyboard_pressed_ = true;
 		}
 	}else

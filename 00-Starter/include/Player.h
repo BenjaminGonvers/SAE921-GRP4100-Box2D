@@ -1,4 +1,6 @@
 #pragma once
+#include <SFML/Audio/Sound.hpp>
+
 #include "PhysicalObject.h"
 
 
@@ -11,11 +13,12 @@ private:
 	bool LevelFinish_ = false;
 
 	b2Fixture* footSensorFixture_;
+	sf::Sound jump_sound_;
 
 
 public:
 
-	Player(b2World& , sf::Texture* , sf::Vector2f& , b2Vec2 [], const int& , b2BodyType);
+	Player(b2World& , sf::Texture* ,sf::SoundBuffer*, sf::Vector2f& , b2Vec2 [], const int& , b2BodyType);
 
 	void Check_Player_Action();
 

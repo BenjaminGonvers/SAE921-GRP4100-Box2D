@@ -8,6 +8,7 @@
 #include <vector>
 #include <Player.h>
 #include <PlayerContactListener.h>
+#include <SoundManager.h>
 #include <fstream>
 class Game
 {
@@ -40,7 +41,7 @@ private:
     std::vector<std::unique_ptr<PhysicalObject>> player_box_mobile_vector;
     std::vector<std::unique_ptr<NonPhysicalObject>> objects_vector_;
     std::vector<std::unique_ptr<Player>> players_character_vector;
-
+    sf::Sound music_sound_;
 
 
     sf::Vector2i mouse_pos_SFML_;
@@ -52,6 +53,7 @@ private:
     std::vector<int> first_map_;
 
     TextureManager texture_manager_;
+    SoundManager sound_manager_;
 
     PlayerContactListener player_contact_listener_;
     
